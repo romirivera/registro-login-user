@@ -6,26 +6,25 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       api
         .get('/user-data')
-        .then((response) => setUser(respone.data.user))
+        .then((response) => setUser(response.data.user))
         .catch(() => logout());
     }
   }, []);
-};
-
-const login = async (email, password) => {
-  const response = response.data.data;
-  console.log(response);
-  localStorage.setItem('token', token);
-  const profile = await api.get('/user-data');
-  setUser(profile.data);
-  navigate('/profile');
+  const login = async (email, password) => {
+    const response = response.data.data;
+    console.log(response);
+    localStorage.setItem('token', token);
+    const profile = await api.get('/user-data');
+    setUser(profile.data);
+    navigate('/profile');
+  };
 
   const logout = () => {
     localStorage.removeItem('token');
